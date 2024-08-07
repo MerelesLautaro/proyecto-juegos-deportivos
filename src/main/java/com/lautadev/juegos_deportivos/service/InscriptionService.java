@@ -1,11 +1,13 @@
 package com.lautadev.juegos_deportivos.service;
 
+import com.lautadev.juegos_deportivos.dto.InscriptionDTO;
 import com.lautadev.juegos_deportivos.model.Inscription;
 import com.lautadev.juegos_deportivos.repository.IInscriptionRepository;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +22,16 @@ public class InscriptionService implements IInscriptionService {
     }
 
     @Override
-    public List<Inscription> getInscriptions() {
-        return inscriptionRepository.findAll();
+    public List<InscriptionDTO> getInscriptions() {
+        List<Inscription> inscriptionList = inscriptionRepository.findAll();
+        List<InscriptionDTO> inscriptionDTOS = new ArrayList<>();
+
+        for(Inscription inscription: inscriptionList){
+            inscriptionDTOS.add(InscriptionDTO.fromInscription(inscription));
+        }
+
+        return inscriptionDTOS;
+
     }
 
     @Override
@@ -42,5 +52,11 @@ public class InscriptionService implements IInscriptionService {
 
         assert inscriptionEdit != null;
         return inscriptionRepository.save(inscriptionEdit);
+    }
+
+    @Override
+    public InscriptionDTO findInscriptionDTO(Long id) {
+        Inscription inscription = this.findInscription(id).orElse(null);
+        return InscriptionDTO.fromInscription(inscription);
     }
 }

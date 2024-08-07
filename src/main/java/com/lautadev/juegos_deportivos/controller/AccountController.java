@@ -40,5 +40,8 @@ public class AccountController {
         return ResponseEntity.ok("Account deleted");
     }
 
-    //Endpoint for edit account
+    @PatchMapping("/edit/{id}")
+    public ResponseEntity<Account> editAccount(@PathVariable Long id, @RequestBody Account account){
+        return ResponseEntity.ok(accountService.editAccount(id,account));
+    }
 }

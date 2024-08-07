@@ -29,12 +29,11 @@ public class Participant {
     private String cel;
     private String email;
     private SportRole sportRole;
-    @ManyToOne
-    @JoinColumn(name = "fk_institution")
-    private Institution institution;
     private Departament departament;
     private Municipality municipality;
     private String domicile;
+    @ManyToOne
+    private Institution institution;
     @ManyToMany(mappedBy = "participants")
     private List<Inscription> inscriptions;
     @OneToOne

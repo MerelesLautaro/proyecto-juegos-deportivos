@@ -20,6 +20,5 @@ public class Institution {
     private Long id;
     private String name;
     private InstitutionType institutionType;
-    @OneToMany(mappedBy = "institution")
-    private List<Participant> participants;
+    // agregar domicilio y telefono para una instutitucion
 }

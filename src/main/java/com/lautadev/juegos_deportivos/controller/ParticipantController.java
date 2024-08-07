@@ -1,5 +1,6 @@
 package com.lautadev.juegos_deportivos.controller;
 
+import com.lautadev.juegos_deportivos.dto.ParticipantDTO;
 import com.lautadev.juegos_deportivos.model.Participant;
 import com.lautadev.juegos_deportivos.service.IParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,21 @@ public class ParticipantController {
         return ResponseEntity.ok(participantService.getParticipants());
     }
 
+    @GetMapping("/info")
+    public ResponseEntity<List<ParticipantDTO>> getInfoParticipantsDTO(){
+        return ResponseEntity.ok(participantService.getParticipantsDTO());
+    }
+
     @GetMapping("/get/{id}")
     public ResponseEntity<Participant> findParticipant(@PathVariable Long id){
         Optional<Participant> participant = participantService.findParticipant(id);
         return participant.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/info/{id}")
+    public ResponseEntity<ParticipantDTO> infoParticipantDTO(@PathVariable Long id){
+        Optional<ParticipantDTO> participantDTO = participantService.findParticipantDTO(id);
+        return participantDTO.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/delete/{id}")

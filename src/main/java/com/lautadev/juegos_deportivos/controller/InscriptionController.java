@@ -1,5 +1,6 @@
 package com.lautadev.juegos_deportivos.controller;
 
+import com.lautadev.juegos_deportivos.dto.InscriptionDTO;
 import com.lautadev.juegos_deportivos.model.Inscription;
 import com.lautadev.juegos_deportivos.service.IInscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,13 @@ public class InscriptionController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Inscription>> getInscriptions(){
+    public ResponseEntity<List<InscriptionDTO>> getInscriptions(){
         return ResponseEntity.ok(inscriptionService.getInscriptions());
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Inscription> findInscription(@PathVariable Long id){
-        Optional<Inscription> inscription = inscriptionService.findInscription(id);
-        return inscription.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    public ResponseEntity<InscriptionDTO> findInscription(@PathVariable Long id){
+        return ResponseEntity.ok(inscriptionService.findInscriptionDTO(id));
     }
 
     @DeleteMapping("/delete/{id}")

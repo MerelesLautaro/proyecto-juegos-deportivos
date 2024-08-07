@@ -3,6 +3,7 @@ package com.lautadev.juegos_deportivos.service;
 import com.lautadev.juegos_deportivos.model.Account;
 import com.lautadev.juegos_deportivos.model.Role;
 import com.lautadev.juegos_deportivos.repository.IAccountRepository;
+import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class AccountService implements IAccountService{
     private IRoleService roleService;
 
     @Override
-    public void saveAccount(Account account) {
+    public Account saveAccount(Account account) {
         Set<Role> roleList = new HashSet<>();
 
         //userSec.setPassword(this.encriptPassword(userSec.getPassword()));
@@ -34,9 +35,10 @@ public class AccountService implements IAccountService{
 
         if(!roleList.isEmpty()){
             account.setRoleList(roleList);
-            accountRepository.save(account);
+            return accountRepository.save(account);
         }
 
+        return account;
     }
 
     @Override
@@ -55,7 +57,12 @@ public class AccountService implements IAccountService{
     }
 
     @Override
-    public void editAccount(Account account) {
-        this.saveAccount(account);
+    public Account editAccount(Long id,Account account) {
+        Account accountEdit = this.findAccount(id).orElse(null);
+
+        NullAwareBeanUtils.copyNonNullProperties(account,accountEdit);
+
+        assert accountEdit != null;
+        return this.saveAccount(accountEdit);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,12 +19,6 @@ public class Discipline {
     private Long id;
     private String name;
     private String modality;
-    @ManyToMany
-    @JoinTable(
-            name = "categories_disciplines",
-            joinColumns = @JoinColumn(name = "discipline_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
     @ManyToOne
-    private Category category; //esto tiene quer ser una lista, una disciplina puede tener muchas categorias
+    private Category category;
 }
