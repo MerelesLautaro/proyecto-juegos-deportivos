@@ -35,12 +35,12 @@ public class InscriptionService implements IInscriptionService {
     }
 
     @Override
-    public void editInscription(Long id,Inscription inscription) {
+    public Inscription editInscription(Long id,Inscription inscription) {
         Inscription inscriptionEdit = this.findInscription(id).orElse(null);
 
         NullAwareBeanUtils.copyNonNullProperties(inscription,inscriptionEdit);
 
         assert inscriptionEdit != null;
-        inscriptionRepository.save(inscriptionEdit);
+        return inscriptionRepository.save(inscriptionEdit);
     }
 }

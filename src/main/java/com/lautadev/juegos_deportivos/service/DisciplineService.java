@@ -35,13 +35,13 @@ public class DisciplineService implements IDisciplineService{
     }
 
     @Override
-    public void editDiscipline(Long id,Discipline discipline) {
+    public Discipline editDiscipline(Long id,Discipline discipline) {
         Discipline disciplineEdit = this.findDiscipline(id).orElse(null);
 
         // Copy non-null properties
         NullAwareBeanUtils.copyNonNullProperties(discipline, disciplineEdit);
 
         assert disciplineEdit != null;
-        disciplineRepository.save(disciplineEdit);
+        return disciplineRepository.save(disciplineEdit);
     }
 }

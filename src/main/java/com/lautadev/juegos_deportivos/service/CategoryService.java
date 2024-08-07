@@ -35,12 +35,12 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public void editCategory(Long id,Category category) {
+    public Category editCategory(Long id,Category category) {
         Category categoryEdit = this.findCategory(id).orElse(null);
 
         NullAwareBeanUtils.copyNonNullProperties(category,categoryEdit);
 
         assert categoryEdit != null;
-        categoryRepository.save(categoryEdit);
+        return categoryRepository.save(categoryEdit);
     }
 }

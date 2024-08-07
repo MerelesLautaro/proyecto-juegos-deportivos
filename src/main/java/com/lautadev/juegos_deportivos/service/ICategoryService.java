@@ -10,5 +10,5 @@ public interface ICategoryService {
     public List<Category> getCategories();
     public Optional<Category> findCategory(Long id);
     public void deleteCategory(Long id);
-    public void editCategory(Long id,Category category);
+    public Category editCategory(Long id,Category category);
 }

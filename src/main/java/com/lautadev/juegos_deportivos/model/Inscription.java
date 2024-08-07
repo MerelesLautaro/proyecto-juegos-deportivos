@@ -32,4 +32,6 @@ public class Inscription {
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
     private List<Participant> participants;
+    @ManyToOne
+    private Discipline discipline;
 }

@@ -11,5 +11,5 @@ public interface IInstitutionService {
     public List<Institution> getInstitutions();
     public Optional<Institution> findInstitution(Long id);
     public void deleteInstitution(Long id);
-    public void editInstitution(Long id,Institution institution);
+    public Institution editInstitution(Long id,Institution institution);
 }

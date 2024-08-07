@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IRoleService {
-    public void saveRole(Role role);
+    public Role saveRole(Role role);
     public List<Role> getRoles();
     public Optional<Role> findRole(Long id);
     public void deleteRole(Long id);
-    public void editRole(Long id,Role role);
+    public Role editRole(Long id,Role role);
 }

@@ -10,5 +10,5 @@ public interface IDisciplineService {
     public List<Discipline> getDisciplines();
     public Optional<Discipline> findDiscipline(Long id);
     public void deleteDiscipline(Long id);
-    public void editDiscipline(Long id,Discipline discipline);
+    public Discipline editDiscipline(Long id,Discipline discipline);
 }

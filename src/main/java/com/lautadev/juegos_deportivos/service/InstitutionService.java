@@ -35,12 +35,12 @@ public class InstitutionService implements IInstitutionService {
     }
 
     @Override
-    public void editInstitution(Long id,Institution institution) {
+    public Institution editInstitution(Long id,Institution institution) {
         Institution institutionEdit = this.findInstitution(id).orElse(null);
 
         NullAwareBeanUtils.copyNonNullProperties(institution,institutionEdit);
 
         assert institutionEdit != null;
-        institutionRepository.save(institutionEdit);
+        return institutionRepository.save(institutionEdit);
     }
 }

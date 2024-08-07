@@ -10,5 +10,5 @@ public interface IInscriptionService {
     public List<Inscription> getInscriptions();
     public Optional<Inscription> findInscription(Long id);
     public void deleteInscription(Long id);
-    public void editInscription(Long id,Inscription inscription);
+    public Inscription editInscription(Long id,Inscription inscription);
 }

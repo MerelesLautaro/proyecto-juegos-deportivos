@@ -35,12 +35,12 @@ public class ParticipantService implements IParticipantService{
     }
 
     @Override
-    public void editParticipant(Long id,Participant participant) {
+    public Participant editParticipant(Long id,Participant participant) {
         Participant participantEdit = this.findParticipant(id).orElse(null);
 
         NullAwareBeanUtils.copyNonNullProperties(participant,participantEdit);
 
         assert participantEdit != null;
-        participantRepository.save(participantEdit);
+        return participantRepository.save(participantEdit);
     }
 }

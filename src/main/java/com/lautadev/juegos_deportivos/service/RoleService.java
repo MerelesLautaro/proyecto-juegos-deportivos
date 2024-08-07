@@ -21,7 +21,7 @@ public class RoleService implements IRoleService{
     private IPermissionService permissionService;
 
     @Override
-    public void saveRole(Role role) {
+    public Role saveRole(Role role) {
         Set<Permission> permissionsList = new HashSet<>();
 
         for(Permission permission: role.getPermissionSet() ){
@@ -31,8 +31,13 @@ public class RoleService implements IRoleService{
             }
         }
 
-        role.setPermissionSet(permissionsList);
-        roleRepository.save(role);
+        if(!permissionsList.isEmpty())
+        {
+            role.setPermissionSet(permissionsList);
+            return roleRepository.save(role);
+        }
+
+        return role;
     }
 
     @Override
@@ -51,12 +56,12 @@ public class RoleService implements IRoleService{
     }
 
     @Override
-    public void editRole(Long id,Role role) {
+    public Role editRole(Long id,Role role) {
         Role roleEdit = this.findRole(id).orElse(null);
 
         NullAwareBeanUtils.copyNonNullProperties(role,roleEdit);
 
         assert roleEdit != null;
-        this.saveRole(roleEdit);
+        return this.saveRole(roleEdit);
     }
 }
