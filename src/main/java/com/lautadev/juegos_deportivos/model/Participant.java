@@ -1,7 +1,5 @@
 package com.lautadev.juegos_deportivos.model;
 
-import com.lautadev.juegos_deportivos.model.enums.Departament;
-import com.lautadev.juegos_deportivos.model.enums.Municipality;
 import com.lautadev.juegos_deportivos.model.enums.SportRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter @Setter
@@ -17,25 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "participants")
-public class Participant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String dni;
-    private String name;
-    private String lastname;
-    @Temporal(TemporalType.DATE)
-    private LocalDate dateOfBirth;
-    private String cel;
-    private String email;
+public class Participant extends Person{
+    @Enumerated(EnumType.STRING)
     private SportRole sportRole;
-    private Departament departament;
-    private Municipality municipality;
-    private String domicile;
     @ManyToOne
+    @JoinColumn(name = "fk_enroller")
+    private Enroller enroller;
+    @ManyToOne
+    @JoinColumn(name = "fk_institution")
     private Institution institution;
     @ManyToMany(mappedBy = "participants")
     private List<Inscription> inscriptions;
-    @OneToOne
-    private Account account;
 }

@@ -59,4 +59,16 @@ public class InscriptionService implements IInscriptionService {
         Inscription inscription = this.findInscription(id).orElse(null);
         return InscriptionDTO.fromInscription(inscription);
     }
+
+    @Override
+    public List<InscriptionDTO> findInscriptionDTOByDni(String dni) {
+        List<Inscription> inscriptionsList = inscriptionRepository.findByParticipantDni(dni);
+        List<InscriptionDTO> inscriptionDTOS = new ArrayList<>();
+
+        for(Inscription inscription: inscriptionsList){
+            inscriptionDTOS.add(InscriptionDTO.fromInscription(inscription));
+        }
+
+        return inscriptionDTOS;
+    }
 }

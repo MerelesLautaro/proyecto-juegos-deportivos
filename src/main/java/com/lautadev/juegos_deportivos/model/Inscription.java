@@ -23,7 +23,9 @@ public class Inscription {
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime inscriptionDate;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
     private Extract extract;
     @ManyToMany
     @JoinTable(

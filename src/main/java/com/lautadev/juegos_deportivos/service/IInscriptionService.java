@@ -13,4 +13,5 @@ public interface IInscriptionService {
     public void deleteInscription(Long id);
     public Inscription editInscription(Long id,Inscription inscription);
     public InscriptionDTO findInscriptionDTO(Long id);
+    public List<InscriptionDTO> findInscriptionDTOByDni(String dni);
 }

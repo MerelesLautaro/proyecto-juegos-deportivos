@@ -19,6 +19,8 @@ public class Institution {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String domicile;
+    private String cel;
+    @Enumerated(EnumType.STRING)
     private InstitutionType institutionType;
-    // agregar domicilio y telefono para una instutitucion
 }

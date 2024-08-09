@@ -34,6 +34,11 @@ public class InscriptionController {
         return ResponseEntity.ok(inscriptionService.findInscriptionDTO(id));
     }
 
+    @GetMapping("/get/my-registration")
+    public ResponseEntity<List<InscriptionDTO>> getInscriptionsByDni(@RequestParam String dni){
+        return ResponseEntity.ok(inscriptionService.findInscriptionDTOByDni(dni));
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteInscription(@PathVariable Long id){
         inscriptionService.deleteInscription(id);
