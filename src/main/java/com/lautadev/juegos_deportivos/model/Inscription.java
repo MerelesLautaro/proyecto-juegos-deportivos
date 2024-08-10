@@ -36,4 +36,8 @@ public class Inscription {
     private List<Participant> participants;
     @ManyToOne
     private Discipline discipline;
+    @ManyToOne
+    private Enroller enroller;
+    @ManyToOne
+    private Institution institution;
 }

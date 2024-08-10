@@ -1,6 +1,7 @@
 package com.lautadev.juegos_deportivos.model;
 
 import com.lautadev.juegos_deportivos.model.enums.InstitutionType;
+import com.lautadev.juegos_deportivos.model.enums.Municipality;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,8 @@ public class Institution {
     private Long id;
     private String name;
     private String domicile;
+    @Enumerated(EnumType.STRING)
+    private Municipality municipality;
     private String cel;
     @Enumerated(EnumType.STRING)
     private InstitutionType institutionType;

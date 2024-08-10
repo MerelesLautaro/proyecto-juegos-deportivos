@@ -39,6 +39,12 @@ public class InscriptionController {
         return ResponseEntity.ok(inscriptionService.findInscriptionDTOByDni(dni));
     }
 
+    @GetMapping("/get/my-registration/print/{id}")
+    public ResponseEntity<String> generatePdfInscription(@PathVariable Long id){
+        inscriptionService.generatePdfInscription(id);
+        return ResponseEntity.ok("Pdf generated successfully");
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteInscription(@PathVariable Long id){
         inscriptionService.deleteInscription(id);
@@ -46,7 +52,7 @@ public class InscriptionController {
     }
 
     @PatchMapping("/edit/{id}")
-    public ResponseEntity<Inscription> editInscription(@PathVariable Long id,@RequestBody Inscription inscription){
+    public ResponseEntity<InscriptionDTO> editInscription(@PathVariable Long id,@RequestBody Inscription inscription){
         return ResponseEntity.ok(inscriptionService.editInscription(id,inscription));
     }
 }

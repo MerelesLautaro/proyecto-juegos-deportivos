@@ -4,6 +4,7 @@ import com.lautadev.juegos_deportivos.dto.InscriptionDTO;
 import com.lautadev.juegos_deportivos.model.Inscription;
 import com.lautadev.juegos_deportivos.repository.IInscriptionRepository;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
+import com.lautadev.juegos_deportivos.util.PDFGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,13 +46,14 @@ public class InscriptionService implements IInscriptionService {
     }
 
     @Override
-    public Inscription editInscription(Long id,Inscription inscription) {
+    public InscriptionDTO editInscription(Long id,Inscription inscription) {
         Inscription inscriptionEdit = this.findInscription(id).orElse(null);
 
         NullAwareBeanUtils.copyNonNullProperties(inscription,inscriptionEdit);
 
         assert inscriptionEdit != null;
-        return inscriptionRepository.save(inscriptionEdit);
+        inscriptionRepository.save(inscriptionEdit);
+        return this.findInscriptionDTO(inscriptionEdit.getId());
     }
 
     @Override
@@ -70,5 +72,11 @@ public class InscriptionService implements IInscriptionService {
         }
 
         return inscriptionDTOS;
+    }
+
+    @Override
+    public void generatePdfInscription(Long id) {
+        InscriptionDTO inscriptionDTO = this.findInscriptionDTO(id);
+        PDFGenerator.GeneratePdf(inscriptionDTO);
     }
 }

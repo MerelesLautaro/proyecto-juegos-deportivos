@@ -1,5 +1,6 @@
 package com.lautadev.juegos_deportivos.dto;
 
+import com.lautadev.juegos_deportivos.model.Enroller;
 import com.lautadev.juegos_deportivos.model.Institution;
 import com.lautadev.juegos_deportivos.model.Participant;
 import com.lautadev.juegos_deportivos.model.enums.Municipality;
@@ -28,6 +29,7 @@ public class ParticipantDTO {
     private String cel;
     private String email;
     private Institution institution;
+    private Enroller enroller;
 
     public static ParticipantDTO fromParticipant(Participant participant) {
         if (participant == null) {
@@ -43,7 +45,8 @@ public class ParticipantDTO {
                 participant.getMunicipality(),
                 participant.getCel(),
                 participant.getEmail(),
-                participant.getInstitution()
+                participant.getInstitution(),
+                participant.getEnroller()
         );
     }
 }

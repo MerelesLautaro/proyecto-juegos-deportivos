@@ -11,7 +11,8 @@ public interface IInscriptionService {
     public List<InscriptionDTO> getInscriptions();
     public Optional<Inscription> findInscription(Long id);
     public void deleteInscription(Long id);
-    public Inscription editInscription(Long id,Inscription inscription);
+    public InscriptionDTO editInscription(Long id,Inscription inscription);
     public InscriptionDTO findInscriptionDTO(Long id);
     public List<InscriptionDTO> findInscriptionDTOByDni(String dni);
+    public void generatePdfInscription(Long id);
 }

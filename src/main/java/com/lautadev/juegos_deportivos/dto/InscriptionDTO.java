@@ -1,7 +1,9 @@
 package com.lautadev.juegos_deportivos.dto;
 
 import com.lautadev.juegos_deportivos.model.Discipline;
+import com.lautadev.juegos_deportivos.model.Enroller;
 import com.lautadev.juegos_deportivos.model.Inscription;
+import com.lautadev.juegos_deportivos.model.Institution;
 import com.lautadev.juegos_deportivos.model.enums.Extract;
 import com.lautadev.juegos_deportivos.model.enums.Gender;
 import jakarta.persistence.Temporal;
@@ -13,7 +15,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter @Setter
@@ -26,6 +27,8 @@ public class InscriptionDTO {
     private Gender gender;
     private Extract extract;
     private Discipline discipline;
+    private Enroller enroller;
+    private Institution institution;
     private List<ParticipantDTO> participantDTOS;
 
     // Método de conversión desde Inscription a InscriptionDTO
@@ -43,6 +46,8 @@ public class InscriptionDTO {
                 inscription.getGender(),
                 inscription.getExtract(),
                 inscription.getDiscipline(),
+                inscription.getEnroller(),
+                inscription.getInstitution(),
                 participantDTOs
         );
     }

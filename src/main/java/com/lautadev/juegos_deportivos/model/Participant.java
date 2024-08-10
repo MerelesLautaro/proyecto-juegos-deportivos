@@ -17,10 +17,10 @@ import java.util.List;
 public class Participant extends Person{
     @Enumerated(EnumType.STRING)
     private SportRole sportRole;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_enroller")
     private Enroller enroller;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_institution")
     private Institution institution;
     @ManyToMany(mappedBy = "participants")
