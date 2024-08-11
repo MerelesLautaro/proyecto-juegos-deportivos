@@ -5,6 +5,7 @@ import com.lautadev.juegos_deportivos.model.Role;
 import com.lautadev.juegos_deportivos.repository.IAccountRepository;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class AccountService implements IAccountService{
     public Account saveAccount(Account account) {
         Set<Role> roleList = new HashSet<>();
 
-        //userSec.setPassword(this.encriptPassword(userSec.getPassword()));
+        account.setPassword(this.encriptPassword(account.getPassword()));
 
         for(Role role: account.getRoleList()){
             Role readRole = roleService.findRole(role.getId()).orElse(null);
@@ -64,5 +65,10 @@ public class AccountService implements IAccountService{
 
         assert accountEdit != null;
         return this.saveAccount(accountEdit);
+    }
+
+    @Override
+    public String encriptPassword(String password) {
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

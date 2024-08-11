@@ -11,5 +11,5 @@ public interface IAccountService {
     public Optional<Account> findAccount(Long id);
     public void deleteAccount(Long id);
     public Account editAccount(Long id,Account account);
-    //public String encriptPassword(String password);
+    public String encriptPassword(String password);
 }
