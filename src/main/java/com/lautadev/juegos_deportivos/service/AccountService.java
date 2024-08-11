@@ -78,7 +78,6 @@ public class AccountService implements IAccountService{
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
         Enroller enroller = enrollerRepository.findById(enrollerId).orElse(null);
         if(!accountEdit.getId().equals(enroller.getAccount().getId())){
-            System.out.println("Acceso denegado papu :v");
             throw new AccessDeniedException("You are not authorized to edit this account");
         }
 

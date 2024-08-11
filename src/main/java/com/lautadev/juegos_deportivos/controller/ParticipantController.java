@@ -53,7 +53,7 @@ public class ParticipantController {
     }
 
     @PatchMapping("/edit/{id}")
-    public ResponseEntity<Participant> editParticipant(@PathVariable Long id,
+    public ResponseEntity<ParticipantDTO> editParticipant(@PathVariable Long id,
                                                        @RequestBody Participant participant){
         return ResponseEntity.ok(participantService.editParticipant(id,participant));
     }

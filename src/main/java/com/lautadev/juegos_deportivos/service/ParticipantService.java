@@ -46,7 +46,7 @@ public class ParticipantService implements IParticipantService{
     }
 
     @Override
-    public Participant editParticipant(Long id,Participant participant) {
+    public ParticipantDTO editParticipant(Long id,Participant participant) {
         Participant participantEdit = this.findParticipant(id).orElse(null);
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
         if (!participantEdit.getEnroller().getId().equals(enrollerId)) {
@@ -56,7 +56,8 @@ public class ParticipantService implements IParticipantService{
 
         NullAwareBeanUtils.copyNonNullProperties(participant,participantEdit);
 
-        return participantRepository.save(participantEdit);
+        participantRepository.save(participantEdit);
+        return ParticipantDTO.fromParticipant(participantEdit);
     }
 
     @Override

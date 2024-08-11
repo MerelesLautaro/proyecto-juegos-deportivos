@@ -3,6 +3,7 @@ package com.lautadev.juegos_deportivos.model;
 import com.lautadev.juegos_deportivos.model.enums.InstitutionType;
 import com.lautadev.juegos_deportivos.model.enums.Municipality;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Institution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String name;
     private String domicile;
     @Enumerated(EnumType.STRING)

@@ -58,7 +58,6 @@ public class EnrollerService implements IEnrollerService {
         Enroller enrollerEdit = enrollerRepository.findById(id).orElse(null);
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
         if(!enrollerEdit.getId().equals(enrollerId)){
-            System.out.println("Acceso denegado papu :v");
             throw new AccessDeniedException("You are not authorized to edit this enroller");
         }
 

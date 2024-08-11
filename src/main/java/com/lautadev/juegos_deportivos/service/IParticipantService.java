@@ -11,7 +11,7 @@ public interface IParticipantService {
     public List<Participant> getParticipants();
     public Optional<Participant> findParticipant(Long id);
     public void deleteParticipant(Long id);
-    public Participant editParticipant(Long id,Participant participant);
+    public ParticipantDTO editParticipant(Long id,Participant participant);
     public Optional<ParticipantDTO> findParticipantDTO(Long id);
     public List<ParticipantDTO> getParticipantsDTO();
 }
