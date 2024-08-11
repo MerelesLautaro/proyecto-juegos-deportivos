@@ -12,26 +12,27 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/account")
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasRole('ADMIN')")
 public class AccountController {
     @Autowired
     private IAccountService accountService;
 
+    @PreAuthorize("permitAll()")
     @PostMapping("/save")
-    public ResponseEntity<String> saveAccount(@RequestBody Account account){
+    public ResponseEntity<String> saveAccount(@RequestBody Account account) {
         accountService.saveAccount(account);
         return ResponseEntity.ok("Account saved successfully");
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Account>> getAccounts(){
+    public ResponseEntity<List<Account>> getAccounts() {
         return ResponseEntity.ok(accountService.getAccounts());
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Account> findAccount(@PathVariable Long id){
+    public ResponseEntity<Account> findAccount(@PathVariable Long id) {
         Optional<Account> account = accountService.findAccount(id);
-        return account.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+        return account.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/delete/{id}")

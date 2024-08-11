@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/institution")
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasRole('ADMIN')")
 public class InstitutionController {
     @Autowired
     private IInstitutionService institutionService;
@@ -23,11 +23,13 @@ public class InstitutionController {
         return ResponseEntity.ok("Institution saved successfully");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get")
     public ResponseEntity<List<Institution>> getInstitutions(){
         return ResponseEntity.ok(institutionService.getInstitutions());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get/{id}")
     public ResponseEntity<Institution> findInstitution(@PathVariable Long id){
         Optional<Institution> institution = institutionService.findInstitution(id);

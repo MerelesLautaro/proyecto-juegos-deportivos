@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/participant")
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasAnyRole('ADMIN','ENROLLER')")
 public class ParticipantController {
     @Autowired
     private IParticipantService  participantService;
@@ -53,7 +53,8 @@ public class ParticipantController {
     }
 
     @PatchMapping("/edit/{id}")
-    public ResponseEntity<Participant> editParticipant(@PathVariable Long id,@RequestBody Participant participant){
+    public ResponseEntity<Participant> editParticipant(@PathVariable Long id,
+                                                       @RequestBody Participant participant){
         return ResponseEntity.ok(participantService.editParticipant(id,participant));
     }
 }

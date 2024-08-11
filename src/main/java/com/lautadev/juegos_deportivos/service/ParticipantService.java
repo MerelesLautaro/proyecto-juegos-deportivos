@@ -5,6 +5,7 @@ import com.lautadev.juegos_deportivos.model.Participant;
 import com.lautadev.juegos_deportivos.repository.IParticipantRepository;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ import java.util.Optional;
 public class ParticipantService implements IParticipantService{
     @Autowired
     private IParticipantRepository participantRepository;
+
+    @Autowired
+    private IUserDetailsService userDetailsService;
 
     @Override
     public void saveParticipant(Participant participant) {
@@ -33,16 +37,25 @@ public class ParticipantService implements IParticipantService{
 
     @Override
     public void deleteParticipant(Long id) {
+        Participant participant = participantRepository.findById(id).orElse(null);
+        Long enrollerId = userDetailsService.getCurrentEnrollerId();
+        if (!participant.getEnroller().getId().equals(enrollerId)) {
+            throw new AccessDeniedException("You are not authorized to delete this participant");
+        }
         participantRepository.deleteById(id);
     }
 
     @Override
     public Participant editParticipant(Long id,Participant participant) {
         Participant participantEdit = this.findParticipant(id).orElse(null);
+        Long enrollerId = userDetailsService.getCurrentEnrollerId();
+        if (!participantEdit.getEnroller().getId().equals(enrollerId)) {
+            System.out.println("You are not authorized to edit this participant");
+            throw new AccessDeniedException("You are not authorized to edit this participant");
+        }
 
         NullAwareBeanUtils.copyNonNullProperties(participant,participantEdit);
 
-        assert participantEdit != null;
         return participantRepository.save(participantEdit);
     }
 

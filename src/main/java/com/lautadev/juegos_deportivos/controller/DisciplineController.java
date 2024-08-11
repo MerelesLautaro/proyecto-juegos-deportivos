@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/discipline")
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasRole('ADMIN')")
 public class DisciplineController {
     @Autowired
     private IDisciplineService disciplineService;
@@ -23,11 +23,13 @@ public class DisciplineController {
         return ResponseEntity.ok("Discipline saved successfully");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get")
     public ResponseEntity<List<Discipline>> getDisciplines(){
         return ResponseEntity.ok(disciplineService.getDisciplines());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get/{id}")
     public ResponseEntity<Discipline> findDiscipline(@PathVariable Long id){
         Optional<Discipline> discipline = disciplineService.findDiscipline(id);

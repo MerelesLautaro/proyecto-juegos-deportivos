@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/category")
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasRole('ADMIN')")
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
@@ -23,11 +23,13 @@ public class CategoryController {
         return ResponseEntity.ok("Category saved successfully");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get")
     public ResponseEntity<List<Category>> getCategories(){
         return ResponseEntity.ok(categoryService.getCategories());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get/{id}")
     public ResponseEntity<Category> findCategory(@PathVariable Long id){
         Optional<Category> category =  categoryService.findCategory(id);

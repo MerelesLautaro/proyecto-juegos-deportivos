@@ -9,11 +9,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/inscription")
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasAnyRole('ADMIN','ENROLLER')")
 public class InscriptionController {
     @Autowired
     private IInscriptionService inscriptionService;
@@ -24,6 +23,7 @@ public class InscriptionController {
         return ResponseEntity.ok("Inscription saved successfully");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get")
     public ResponseEntity<List<InscriptionDTO>> getInscriptions(){
         return ResponseEntity.ok(inscriptionService.getInscriptions());

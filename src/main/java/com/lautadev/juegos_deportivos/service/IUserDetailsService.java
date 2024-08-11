@@ -3,7 +3,9 @@ package com.lautadev.juegos_deportivos.service;
 import com.lautadev.juegos_deportivos.dto.AuthLoginRequestDTO;
 import com.lautadev.juegos_deportivos.dto.AuthLoginResponseDTO;
 import com.lautadev.juegos_deportivos.model.Account;
+import com.lautadev.juegos_deportivos.model.Enroller;
 import com.lautadev.juegos_deportivos.repository.IAccountRepository;
+import com.lautadev.juegos_deportivos.repository.IEnrollerRepository;
 import com.lautadev.juegos_deportivos.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +28,9 @@ public class IUserDetailsService implements UserDetailsService {
 
     @Autowired
     private IAccountRepository accountRepository;
+
+    @Autowired
+    private IEnrollerRepository enrollerRepository;
 
     @Autowired
     private JWTUtils jwtUtils;
@@ -89,5 +94,31 @@ public class IUserDetailsService implements UserDetailsService {
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
 
+    }
+
+    public Long getCurrentEnrollerId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) {
+            throw new IllegalStateException("Authentication is null");
+        }
+
+        if (!authentication.isAuthenticated()) {
+            throw new IllegalStateException("User not authenticated");
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof String) {
+            String username = (String) principal;
+            Account account = accountRepository.findUserEntityByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            Enroller enroller = enrollerRepository.findByAccountId(account.getId())
+                    .orElseThrow(() -> new IllegalStateException("Enroller not found for the current user"));
+
+            return enroller.getId();
+        }
+
+        throw new IllegalStateException("User not authenticated");
     }
 }
