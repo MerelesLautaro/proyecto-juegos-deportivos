@@ -3,6 +3,7 @@ package com.lautadev.juegos_deportivos.service;
 import com.lautadev.juegos_deportivos.dto.ParticipantDTO;
 import com.lautadev.juegos_deportivos.model.Participant;
 import com.lautadev.juegos_deportivos.repository.IParticipantRepository;
+import com.lautadev.juegos_deportivos.throwable.EntityNotFoundException;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -37,19 +38,26 @@ public class ParticipantService implements IParticipantService{
 
     @Override
     public void deleteParticipant(Long id) {
-        Participant participant = participantRepository.findById(id).orElse(null);
+        Participant participant = participantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        if (!participant.getEnroller().getId().equals(enrollerId)) {
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+
+        if (!isAdmin && !participant.getEnroller().getId().equals(enrollerId)) {
             throw new AccessDeniedException("You are not authorized to delete this participant");
         }
+
         participantRepository.deleteById(id);
     }
 
     @Override
     public ParticipantDTO editParticipant(Long id,Participant participant) {
-        Participant participantEdit = this.findParticipant(id).orElse(null);
+        Participant participantEdit = this.findParticipant(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        if (!participantEdit.getEnroller().getId().equals(enrollerId)) {
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+
+        if (!isAdmin && !participantEdit.getEnroller().getId().equals(enrollerId)) {
             System.out.println("You are not authorized to edit this participant");
             throw new AccessDeniedException("You are not authorized to edit this participant");
         }

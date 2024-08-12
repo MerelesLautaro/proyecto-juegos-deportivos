@@ -3,6 +3,7 @@ package com.lautadev.juegos_deportivos.service;
 import com.lautadev.juegos_deportivos.dto.EnrollerDTO;
 import com.lautadev.juegos_deportivos.model.Enroller;
 import com.lautadev.juegos_deportivos.repository.IEnrollerRepository;
+import com.lautadev.juegos_deportivos.throwable.EntityNotFoundException;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -45,9 +46,12 @@ public class EnrollerService implements IEnrollerService {
 
     @Override
     public void deleteEnroller(Long id) {
-        Enroller enroller = enrollerRepository.findById(id).orElse(null);
+        Enroller enroller = enrollerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        if(!enroller.getId().equals(enrollerId)){
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+
+        if(!isAdmin && !enroller.getId().equals(enrollerId)){
             throw new AccessDeniedException("You are not authorized to delete this enroller");
         }
         enrollerRepository.deleteById(id);
@@ -55,9 +59,12 @@ public class EnrollerService implements IEnrollerService {
 
     @Override
     public Optional<EnrollerDTO> editEnroller(Long id, Enroller enroller) {
-        Enroller enrollerEdit = enrollerRepository.findById(id).orElse(null);
+        Enroller enrollerEdit = enrollerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        if(!enrollerEdit.getId().equals(enrollerId)){
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+
+        if(!isAdmin && !enrollerEdit.getId().equals(enrollerId)){
             throw new AccessDeniedException("You are not authorized to edit this enroller");
         }
 

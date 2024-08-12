@@ -121,4 +121,15 @@ public class IUserDetailsService implements UserDetailsService {
 
         throw new IllegalStateException("User not authenticated");
     }
+
+    public boolean hasRoleAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("User not authenticated");
+        }
+
+        return authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+    }
 }

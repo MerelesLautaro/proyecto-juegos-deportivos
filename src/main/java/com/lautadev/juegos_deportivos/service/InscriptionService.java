@@ -3,6 +3,7 @@ package com.lautadev.juegos_deportivos.service;
 import com.lautadev.juegos_deportivos.dto.InscriptionDTO;
 import com.lautadev.juegos_deportivos.model.Inscription;
 import com.lautadev.juegos_deportivos.repository.IInscriptionRepository;
+import com.lautadev.juegos_deportivos.throwable.EntityNotFoundException;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import com.lautadev.juegos_deportivos.util.PDFGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,12 @@ public class InscriptionService implements IInscriptionService {
 
     @Override
     public void deleteInscription(Long id) {
-        Inscription inscription = inscriptionRepository.findById(id).orElse(null);
+        Inscription inscription = inscriptionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        if (!inscription.getEnroller().getId().equals(enrollerId)) {
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+
+        if (!isAdmin  && !inscription.getEnroller().getId().equals(enrollerId)) {
             throw new AccessDeniedException("You are not authorized to delete this inscription");
         }
         inscriptionRepository.deleteById(id);
@@ -56,9 +60,12 @@ public class InscriptionService implements IInscriptionService {
 
     @Override
     public InscriptionDTO editInscription(Long id,Inscription inscription) {
-        Inscription inscriptionEdit = this.findInscription(id).orElse(null);
+        Inscription inscriptionEdit = this.findInscription(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        if (!inscriptionEdit.getEnroller().getId().equals(enrollerId)) {
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+
+        if (!isAdmin && !inscriptionEdit.getEnroller().getId().equals(enrollerId)) {
             throw new AccessDeniedException("You are not authorized to edit this inscription");
         }
 

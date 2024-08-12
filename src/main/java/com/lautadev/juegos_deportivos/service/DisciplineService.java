@@ -2,6 +2,7 @@ package com.lautadev.juegos_deportivos.service;
 
 import com.lautadev.juegos_deportivos.model.Discipline;
 import com.lautadev.juegos_deportivos.repository.IDisciplineRepository;
+import com.lautadev.juegos_deportivos.throwable.EntityNotFoundException;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class DisciplineService implements IDisciplineService{
 
     @Override
     public Discipline editDiscipline(Long id,Discipline discipline) {
-        Discipline disciplineEdit = this.findDiscipline(id).orElse(null);
+        Discipline disciplineEdit = this.findDiscipline(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
 
         // Copy non-null properties
         NullAwareBeanUtils.copyNonNullProperties(discipline, disciplineEdit);

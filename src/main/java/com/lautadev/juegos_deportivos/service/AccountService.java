@@ -5,6 +5,7 @@ import com.lautadev.juegos_deportivos.model.Enroller;
 import com.lautadev.juegos_deportivos.model.Role;
 import com.lautadev.juegos_deportivos.repository.IAccountRepository;
 import com.lautadev.juegos_deportivos.repository.IEnrollerRepository;
+import com.lautadev.juegos_deportivos.throwable.EntityNotFoundException;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -63,27 +64,38 @@ public class AccountService implements IAccountService{
 
     @Override
     public void deleteAccount(Long id) {
-        Account account = this.findAccount(id).orElse(null);
+        Account account = this.findAccount(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        Enroller enroller = enrollerRepository.findById(enrollerId).orElse(null);
-        if(!account.getId().equals(enroller.getAccount().getId())){
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+        Enroller enroller = enrollerRepository.findById(enrollerId).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
+        if(!isAdmin && !account.getId().equals(enroller.getAccount().getId())){
             throw new AccessDeniedException("You are not authorized to delete this account");
         }
+
         accountRepository.deleteById(id);
     }
 
     @Override
     public Account editAccount(Long id,Account account) {
-        Account accountEdit = this.findAccount(id).orElse(null);
+        Account accountEdit = this.findAccount(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
         Long enrollerId = userDetailsService.getCurrentEnrollerId();
-        Enroller enroller = enrollerRepository.findById(enrollerId).orElse(null);
-        if(!accountEdit.getId().equals(enroller.getAccount().getId())){
+        boolean isAdmin = userDetailsService.hasRoleAdmin();
+        Enroller enroller = enrollerRepository.findById(enrollerId).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
+
+        if(!isAdmin && !accountEdit.getId().equals(enroller.getAccount().getId())){
             throw new AccessDeniedException("You are not authorized to edit this account");
         }
 
         NullAwareBeanUtils.copyNonNullProperties(account,accountEdit);
 
-        return this.saveAccount(accountEdit);
+        if(accountEdit != null) {
+            return this.saveAccount(accountEdit);
+        }
+
+        return account;
     }
 
     @Override

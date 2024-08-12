@@ -3,6 +3,7 @@ package com.lautadev.juegos_deportivos.service;
 import com.lautadev.juegos_deportivos.model.Permission;
 import com.lautadev.juegos_deportivos.model.Role;
 import com.lautadev.juegos_deportivos.repository.IRoleRepository;
+import com.lautadev.juegos_deportivos.throwable.EntityNotFoundException;
 import com.lautadev.juegos_deportivos.util.NullAwareBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,7 @@ public class RoleService implements IRoleService{
 
     @Override
     public Role editRole(Long id,Role role) {
-        Role roleEdit = this.findRole(id).orElse(null);
+        Role roleEdit = this.findRole(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;;
 
         NullAwareBeanUtils.copyNonNullProperties(role,roleEdit);
 
