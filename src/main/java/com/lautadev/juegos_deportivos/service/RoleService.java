@@ -62,7 +62,6 @@ public class RoleService implements IRoleService{
 
         NullAwareBeanUtils.copyNonNullProperties(role,roleEdit);
 
-        assert roleEdit != null;
         return this.saveRole(roleEdit);
     }
 }

@@ -70,7 +70,6 @@ public class EnrollerService implements IEnrollerService {
 
         NullAwareBeanUtils.copyNonNullProperties(enroller,enrollerEdit);
 
-        assert enrollerEdit != null;
         enrollerRepository.save(enrollerEdit);
 
         return this.findEnroller(enrollerEdit.getId());

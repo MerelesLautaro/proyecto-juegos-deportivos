@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter @Setter
@@ -31,12 +33,14 @@ public class InscriptionDTO {
     private Institution institution;
     private List<ParticipantDTO> participantDTOS;
 
-    // Método de conversión desde Inscription a InscriptionDTO
     public static InscriptionDTO fromInscription(Inscription inscription) {
         if (inscription == null) {
             return null;
         }
-        List<ParticipantDTO> participantDTOs = inscription.getParticipants().stream()
+
+        List<ParticipantDTO> participantDTOs = Optional.ofNullable(inscription.getParticipants())
+                .orElse(Collections.emptyList()) // Si es null, devuelve una lista vacía
+                .stream()
                 .map(ParticipantDTO::fromParticipant)
                 .collect(Collectors.toList());
 

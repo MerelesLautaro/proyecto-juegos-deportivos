@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnrollerDTO {
@@ -35,9 +37,12 @@ public class EnrollerDTO {
             return null;
         }
 
-        List<ParticipantDTO> participantDTOs = enroller.getParticipantList().stream()
-                .map(ParticipantDTO::fromParticipant)
-                .collect(Collectors.toList());
+        List<ParticipantDTO> participantDTOs = new ArrayList<>();
+        if (enroller.getParticipantList() != null) {
+            participantDTOs = enroller.getParticipantList().stream()
+                    .map(ParticipantDTO::fromParticipant)
+                    .collect(Collectors.toList());
+        }
 
         return new EnrollerDTO(
                 enroller.getId(),

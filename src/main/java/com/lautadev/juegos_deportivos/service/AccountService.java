@@ -91,11 +91,7 @@ public class AccountService implements IAccountService{
 
         NullAwareBeanUtils.copyNonNullProperties(account,accountEdit);
 
-        if(accountEdit != null) {
-            return this.saveAccount(accountEdit);
-        }
-
-        return account;
+        return this.saveAccount(accountEdit);
     }
 
     @Override

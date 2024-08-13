@@ -3,10 +3,7 @@ package com.lautadev.juegos_deportivos.model;
 import com.lautadev.juegos_deportivos.model.enums.Extract;
 import com.lautadev.juegos_deportivos.model.enums.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "inscriptions")
 public class Inscription {

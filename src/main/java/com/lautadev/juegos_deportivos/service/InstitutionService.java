@@ -41,7 +41,6 @@ public class InstitutionService implements IInstitutionService {
 
         NullAwareBeanUtils.copyNonNullProperties(institution,institutionEdit);
 
-        assert institutionEdit != null;
         return institutionRepository.save(institutionEdit);
     }
 }

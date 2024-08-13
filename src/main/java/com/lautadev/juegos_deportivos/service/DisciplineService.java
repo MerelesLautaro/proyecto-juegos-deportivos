@@ -39,10 +39,8 @@ public class DisciplineService implements IDisciplineService{
     public Discipline editDiscipline(Long id,Discipline discipline) {
         Discipline disciplineEdit = this.findDiscipline(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")) ;
 
-        // Copy non-null properties
         NullAwareBeanUtils.copyNonNullProperties(discipline, disciplineEdit);
 
-        assert disciplineEdit != null;
         return disciplineRepository.save(disciplineEdit);
     }
 }

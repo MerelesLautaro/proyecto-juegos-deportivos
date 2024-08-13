@@ -41,7 +41,6 @@ public class CategoryService implements ICategoryService{
 
         NullAwareBeanUtils.copyNonNullProperties(category,categoryEdit);
 
-        assert categoryEdit != null;
         return categoryRepository.save(categoryEdit);
     }
 }
